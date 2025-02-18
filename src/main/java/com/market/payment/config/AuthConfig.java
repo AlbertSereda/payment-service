@@ -1,4 +1,4 @@
-package com.market.category.config;
+package com.market.payment.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

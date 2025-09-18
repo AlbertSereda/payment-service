@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: all-in-market
+  labels:
+    app: payment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      name: payment-service
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: albertsereda/all-in-market-payment-service
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: file:/config/
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: payment-service-config
+              mountPath: /config
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+      volumes:
+        - name: payment-service-config
+          configMap:
+            name: payment-service-config
+      restartPolicy: Always
